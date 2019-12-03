@@ -57,6 +57,16 @@ class Game:
         return 42 == np.count_nonzero(self.board)
         #return self.rows * self.columns == np.count_nonzero(self.board)
 	
+	#returns a set of columns that have at least one open spot
+	def possibleMoves(self):
+		moves = set()
+		var i = 0;
+		for column in range(7):
+			if (len(np.where(self.board[:,column] == 0)) == 0):
+				moves.push(column)
+		
+		return moves
+	
     #returns an enum from Result based on board state
     #TODO
     def EvaluateBoard(self):

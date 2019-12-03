@@ -1,5 +1,8 @@
 from collections import defaultdict
+import random
 import math
+import copy
+import Result
 
 class MonteCarloTreeSearch:
 
@@ -14,7 +17,7 @@ class MonteCarloTreeSearch:
 		if node not in self.children:
 			return node.find_random_child()
 		
-		def score(n);
+		def score(n):
 			if self.visit_counts[n] == 0:
 				return float("-inf") # don't select unseen moves
 			return self.rewards[n] / self.visit_counts[n] # average reward
@@ -84,25 +87,43 @@ class MonteCarloTreeSearch:
 		return max(self.children[node], key=uct)
 
 class TreeNode():
-	def __init__(self, game, move, parent=None):
-		self.game = game
-		self.move = move 
-		self.expanded = False
-		self.parent = parent
-		self.children = {}
-		self.child_priority = np.zeros([7])
-		self.child_value = np.zeros([7])
-		self.child_visits = np.zeros([7])
-		self.action_index = []
+	def __init__(self, board, player, move = -1):
+		self.board = board
+		self.player = player #True if Player1, False if Player2
+		self.move = move
+		if (self.move != -1)
+			board.ChangePlayerTurn()
+			board.addPlayerMove(move)
 		
-	#Monte Carlo has three steps: Select, Expand/Evaluate and Backup
-		
-	#Select step - selects best un-expanded node or end game node
-		def select(self):
-			current = self
-			while current.expanded:
-				best_move = current.best_child()
-				current = current.add_child(best_move)
-			return current
 	
+	#returns a set of all possible successors (moves) from this state
+	def find_children(self):
+		moves = self.board.possibleMoves()
+		children = set()
+		for move in moves:
+			new_board = copy.deepcopy(board)
+			children.push(TreeNode(new_board, !self.player, move))
+		return children
+	
+	#returns a random child from possible children
+	def find_random_child(self):
+		return random.choice(self.find_children())
+	
+	#Does the game end at this node?
+	def is_terminal(self):
+		board_state = self.board.EvaluateBoard()
+		return board_state != Result.NotFinished
+	
+	#Determines the reward for this node (assuming terminal) 1: win, 0: loss, .5=tie
+	def reward(self):
+		board_state = self.board.EvaluateBoard()
+		if (player and board_state = Result.Player1Win)
+			return 1
+		if (!player and board_state = Result.Player2Win)
+			return 1
+		if (board_state = Result.Tie)
+			return .5
+		return 0
+	
+		
 	
