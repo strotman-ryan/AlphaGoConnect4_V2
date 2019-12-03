@@ -4,6 +4,9 @@ import math
 import copy
 import Result
 
+#Train the montecarlo tree by running rollout on the "root"
+#(whatever the current board state is - make a new tree node for this each turn)
+
 class MonteCarloTreeSearch:
 
 	def __init__(self, exploration_weight=1):
@@ -92,7 +95,7 @@ class TreeNode():
 		self.board = board
 		self.player = player #True if Player1, False if Player2
 		self.move = move
-		if (self.move != -1)
+		if (self.move != -1) #Default value for initializing the root
 			board.ChangePlayerTurn()
 			board.addPlayerMove(move)
 		
@@ -109,6 +112,10 @@ class TreeNode():
 	#returns a random child from possible children
 	def find_random_child(self):
 		return random.choice(self.find_children())
+		
+	#Use the NN to predict the best child???
+	def find_best_child(self):
+		pass
 	
 	#Does the game end at this node?
 	def is_terminal(self):
