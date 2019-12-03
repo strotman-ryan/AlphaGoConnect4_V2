@@ -23,7 +23,7 @@ dataO = dataO.replace(to_replace = 'b',value=0)
 dataO = dataO.replace(to_replace = 'o',value=1)
 data = pd.concat([dataX,dataO],axis = 1)
 data.columns = [x for x in range(19)]
-X_train, X_test, y_train, y_test = train_test_split(data.iloc[:,0:17], data.iloc[:,18], test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(data.iloc[:,0:17], data.iloc[:,18], test_size=0.1, random_state=42)
 
 #make NN, one layer of 20 nuerons
 model = Sequential()
