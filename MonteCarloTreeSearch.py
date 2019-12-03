@@ -12,8 +12,9 @@ class MonteCarloTreeSearch:
 		self.children = dict()
 		self.exploration_weight = exploration_weight
 		
+		
 	#Choose the best move to make from this node
-	def choose(self, node):
+	def search(self, node):
 		if node not in self.children:
 			return node.find_random_child()
 		
