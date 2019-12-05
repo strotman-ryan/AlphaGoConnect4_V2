@@ -18,9 +18,7 @@ class TestGameNN:
         return np.array([.2,.2,.3,.3])
     
     def GetProbOfWinning(self,board_rep):
-        prediction = self.policyNN.Predict(np.array([self.translateBoardRep(board_rep.copy())]))  # need to make it (1,8)
-        #print(prediction)
-        return prediction
+        return self.policyNN.Predict(np.array([self.translateBoardRep(board_rep.copy())]))  # need to make it (1,8)
     
     def Train(self,training_examples):
         results = np.array([])
@@ -31,8 +29,7 @@ class TestGameNN:
             board = self.translateBoardRep(board)
             boards = np.append(boards,[board], axis = 0)
         boards = np.delete(boards,0,0)
-        print(boards)
-        self.policyNN.Train(results, boards)
+        self.policyNN.Train(boards, results)
     
     def translateBoardRep(self, board_rep):
         board_rep_p1 = board_rep
@@ -54,8 +51,6 @@ class PolicyNN:
         return self.model.predict(board_rep)[0][0]
     
     def Train(self, board_reps, outcomes):
-        print(board_reps)
-        print(outcomes)
         self.model.fit(board_reps, outcomes, epochs = 20, batch_size = 50)
         
         

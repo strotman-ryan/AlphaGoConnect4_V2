@@ -19,8 +19,6 @@ class MCTS:
     #run the search for num_rollouts
     def DoSearch(self):
         for _ in range(self.num_rollouts):
-            #ERROR is HERE
-            print("Search")
             self.Select()
         pass
     
@@ -37,7 +35,6 @@ class MCTS:
     '''
     def Play(self,temperature = 1):
         new_node,pre_board, pi = self.root_node.MakeMove(temperature)
-        print("play")
         self.root_node = new_node
         return (pre_board, pi)
     
