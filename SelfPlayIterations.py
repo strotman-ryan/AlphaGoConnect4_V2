@@ -14,6 +14,9 @@ import numpy as np
 policyNN = PolicyNN()
 nn = TestGameNN(policyNN)
 board = TestBoard(np.array([0,0,0,0]), nn)
-sp = SelfPlay(nn, board)
-train_examples = sp.PlayGames()
-nn.Train(train_examples)
+
+for x in range(4):
+    print(board)
+    sp = SelfPlay(nn, board)
+    train_examples = sp.PlayGames()
+    nn.Train(train_examples)

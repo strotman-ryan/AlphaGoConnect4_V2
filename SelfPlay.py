@@ -11,7 +11,7 @@ class SelfPlay:
     '''
     NN is NNforTest
     '''
-    def __init__(self, NN, game, num_games = 1):
+    def __init__(self, NN, game, num_games = 1000):
         self.nn = NN
         self.game = game
         self.num_games = num_games
@@ -27,7 +27,6 @@ class SelfPlay:
     def playGame(self,mc):
         traning_examples = np.array([])
         while not mc.EndOfGame():
-            print("another turn")
             mc.DoSearch()
             board, pi = mc.Play()
             traning_examples = np.append(traning_examples,TrainingExample(board, pi))
