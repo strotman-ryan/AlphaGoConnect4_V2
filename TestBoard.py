@@ -1,12 +1,9 @@
 #board for Test Game
 
 import numpy as np
+from TestGameNN import TestGameNN, PolicyNN
 
-        
-        
-
-#class to do everything for test game
-#all arrays are numpy
+#this is one board state in the game and a series of methods
 class TestBoard:
     
     def __init__(self,rep_of_board, nn):
@@ -30,17 +27,25 @@ class TestBoard:
          probabilites = probabilites[self.board == 0]
          probabilites = probabilites / probabilites.sum() #renomalize
          boards = np.array([[1,1,1,1]])
+         print("starting")
+         print(self.board)
          temp_board = self.board.copy()
+         print("temp")
+         print(temp_board)
          for _ in probabilites:
              index = (temp_board==0).argmax()
              board = self.board.copy()
              board[index] = self.WhosMove()
              temp_board[index] = self.WhosMove()
+             print(self.board)
+             print(board)
+             print(temp_board)
              boards = np.append(boards,[board], axis = 0)
-             board = board.copy()   #deep copy
          
          boards = np.delete(boards,0,0)
          board_obj = [TestBoard(board, self.nn) for board in  boards]
+         #for board in boards:
+         #    print(board)
          return (board_obj ,probabilites)
      
     def WhosMove(self):
@@ -77,9 +82,9 @@ class TestBoard:
             n_array_norm = np.insert(n_array_norm, index, 0)
         return n_array_norm
         
+
         
-        
-        
+#board = TestBoard(np.array([-1,0,1,0]), TestGameNN(PolicyNN()))
 
     
 

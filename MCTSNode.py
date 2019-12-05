@@ -3,9 +3,9 @@
 from EdgeStats import EdgeStats
 import random
 import numpy as np
-
+random.seed(0) 
 class MCTSNode:
-
+    
     
     def __init__(self, board, prob_of_chosen = 0,parent = None):
         self.board = board
@@ -45,9 +45,12 @@ class MCTSNode:
         #get the prio probabilities for
         #lists of boards and there probabilites of being chosen
         #all moves are possible
+        print("Evaluating")
+        print(self.board.board)
         boards, p, v = self.board.Evaluate()
         for board, probability in zip(boards,p):
             self.children.append(MCTSNode(board,probability,self))
+            print(board.board)
         return v
     
     
@@ -73,6 +76,7 @@ class MCTSNode:
     #need to looks at when not expanded
     #need to look at when game is over
     def Select(self):
+        print(self.board.board)
         #base cases
         if self.board.GameOver():
             vflipped = 1 - self.board.Value()
