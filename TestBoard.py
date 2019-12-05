@@ -10,9 +10,11 @@ import numpy as np
 class TestBoard:
     
     def __init__(self,rep_of_board, nn):
-        self.board = rep_of_board
         self.nn = nn
+        self.board = rep_of_board
         
+    def Initilize(self):
+        self.board = np.array([0,0,0,0])
     
     #returns a three tuple
     # list of next possible boards
@@ -70,26 +72,15 @@ class TestBoard:
         return .5  # tie
     
     def GetPi(self, n_array):
-        n_array = n_array / n_array.sum()
-        for index in np.nonzero(self.board != 0):
-            n_array = np.insert(n_array, index, 0)
-        return n_array
+        n_array_norm = n_array / n_array.sum()
+        for index in np.nonzero(self.board != 0)[0]:
+            n_array_norm = np.insert(n_array_norm, index, 0)
+        return n_array_norm
         
         
         
         
-class NNforTest:
-    
-    def __init__(self):
-        return
-    
-    
-    def GetProbabilities(self,board_rep):
-        #throw into NN
-        return np.array([.1,.1,.4,.4])
-    
-    def GetProbOfWinning(self,board_rep):
-        return .5
+
     
 
 
