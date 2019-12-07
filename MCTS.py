@@ -12,44 +12,33 @@ class MCTS:
     this is the starting board
     # of times to run
     '''
-    def __init__(self, board, num_rollouts = 5):
-        self.root_node = MCTSNode(board)
-        self.num_rollouts = num_rollouts
+    def __init__(self):
+        self.root_node = None
+  
+    '''
+    TODO should search for children of rootnode but easy implementaion hear
+    '''
+    def SetRootNode(self, gameState):
+        self.root_node = MCTSNode(gameState)
+        
         
     #run the search for num_rollouts
-    def DoSearch(self):
-        for _ in range(self.num_rollouts):
-            self.Select()
-        pass
+    def DoSearch(self,neuralNetworks,numRollouts):
+        for _ in range(numRollouts):
+            self.root_node.Select(neuralNetworks)
     
-    '''
-    find the next leaf node to expand
-    '''
-    def Select(self):
-        self.root_node.Select()
-        
+
     '''
     selects the move with the 
     1 -> vist dist
     0 -> max visit WARNING cannot do exactly 0
     '''
-    def Play(self,temperature = 1):
-        new_node,pre_board, pi = self.root_node.MakeMove(temperature)
+    def ChooseMove(self,temperature = 1):
+        new_node, pi = self.root_node.ChooseMove(temperature)
         self.root_node = new_node
-        return (pre_board, pi)
-    
-    '''
-    returns true if root node is in an end state
-    '''
-    def EndOfGame(self):
-        return self.root_node.TerminalNode()
-    
-    def Result(self):
-        return self.root_node.Result()
-    
+        return (new_node.gameState, pi)
 
-
-mc = MCTS(TestBoard(np.array([0,0,0,0]),TestGameNN(PolicyNN())))    
+       
 
 
 

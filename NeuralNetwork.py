@@ -29,7 +29,7 @@ class NeuralNetwork:
     expects an array of length 84 like described above
     returns the ditribution
     '''
-    def MakePrediction(board_input):
+    def prediction(board_input):
         pass
     
     
