@@ -26,7 +26,7 @@ class MCTSNode:
             index_of_pick += 1
             sum_probs += pi_missing_data[index_of_pick]
         pick = self.children[index_of_pick]
-        pi = self.GameState.CompletePi(pi_missing_data)
+        pi = self.gameState.CompletePi(pi_missing_data)
         return (pick,pi)
     
         '''
@@ -38,7 +38,7 @@ class MCTSNode:
     def Select(self, neuralNetworks):
         #base cases
         if self.gameState.IsTerminal():
-            vflipped = 1 - self.gameState.ProbabilityOfWinning(neuralNetworks)
+            vflipped = 1 - self.gameState.ValueOfWinner()
             self.stats.Update(vflipped)
             return vflipped
         
@@ -57,7 +57,7 @@ class MCTSNode:
             if score > best_score:
                 best_score = score
                 best_child = child
-        v = best_child.Select()
+        v = best_child.Select(neuralNetworks)
         
         vflipped = 1 - v
         self.stats.Update(vflipped)
@@ -82,7 +82,7 @@ class MCTSNode:
             self.children.append(MCTSNode(gameState,probability))
     
     
-    def calculateQplusU(self,total_n):
+    def CalculateQplusU(self,total_n):
         return self.stats.CalculateQplusU(total_n)
         
     
