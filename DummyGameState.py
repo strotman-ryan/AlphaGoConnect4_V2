@@ -1,7 +1,6 @@
 #board for Test Game
 
 import numpy as np
-from TestGameNN import TestGameNN, PolicyNN
 from AbstractGameState import AbstractGameState
 
 #this is one board state in the game and a series of methods
@@ -29,6 +28,14 @@ class DummyGameState(AbstractGameState):
     def ProbabilityOfWinning(self,neuralNetworks):
         if not self.IsTerminal():
             return neuralNetworks.GetProbOfWinning(self.board)
+        print("Error")
+
+    
+    
+    def ValueOfWinner(self):
+        if not self.IsTerminal():
+            print("Error")
+            return
         player = self.whosMove()
         first_two_spots = self.board[0:2]
         player1won = sum(first_two_spots == 1) == 2
@@ -48,6 +55,9 @@ class DummyGameState(AbstractGameState):
         for index in np.nonzero(self.board != 0)[0]:
             arrayOfProbabilites = np.insert(arrayOfProbabilites, index, 0)
         return arrayOfProbabilites
+    
+    def IsSameAs(self, gameState):
+        pass
         
     def determinePossibleMoves(self, probabilites):
          probabilites = probabilites[self.board == 0]
@@ -63,7 +73,7 @@ class DummyGameState(AbstractGameState):
              boards = np.append(boards,[board], axis = 0)
          
          boards = np.delete(boards,0,0)
-         board_obj = [DummyGameState(board, self.nn) for board in  boards]
+         board_obj = [DummyGameState(board) for board in  boards]
          return (board_obj ,probabilites)
      
         

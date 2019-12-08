@@ -43,7 +43,14 @@ class AbstractGameState(ABC):
     given the probilities of moves add in 0s where moves are impossible
     '''
     @abstractmethod
-    def CompletPi(self, arrayOfProbabilites)
+    def CompletePi(self, arrayOfProbabilites):
+        pass
+    
+    '''
+    return a value between [0,1] that determines the value of the end game with respct to current player
+    '''
+    @abstractmethod
+    def ValueOfWinner(self):
         pass
     
     

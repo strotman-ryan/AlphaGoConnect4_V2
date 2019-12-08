@@ -1,10 +1,7 @@
 
 
 #MCTS version 2
-import numpy as np
-from TestBoard import TestBoard
 from MCTSNode import MCTSNode
-from TestGameNN import TestGameNN, PolicyNN
 
 class MCTS:
     
