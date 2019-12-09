@@ -11,11 +11,11 @@ class Connect4GameType(AbstractGameType):
     '''
 	Returns an empty representation of the game
 	'''
-	def GetStartingBoard():
-		rows = 6
-		columns = 7
-		return Connect4GameState(np.zeros((rows,columns)))
+    def GetStartingBoard(self):
+        rows = 6
+        columns = 7
+        return Connect4GameState(np.zeros((rows,columns)))
     
     
-    def GetNewNeuralNetwork():
+    def GetNewNeuralNetwork(self):
         print("Need to implement this")
