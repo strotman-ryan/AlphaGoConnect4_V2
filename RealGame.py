@@ -6,7 +6,7 @@ Created on Sun Dec  8 17:43:46 2019
 """
 
 
-class Game_Final:
+class RealGame:
     
     
     def __init__(self, player1, player2, gameType):

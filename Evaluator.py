@@ -4,7 +4,7 @@ Created on Sun Dec  8 18:17:58 2019
 
 @author: strotman.7
 """
-from Game_Final import Game_Final
+from RealGame import RealGame
 from AIPlayerFactory import AIPlayerFactory
 
 
@@ -30,7 +30,7 @@ class Evaluator:
                 player1 = self.aiFactory.GetEvaluatorAI(self.neuralNetwork2)
                 player2 = self.aiFactory.GetEvaluatorAI(self.neuralNetwork1)
                 
-            game = Game_Final(player1, player2, self.gameType)
+            game = RealGame(player1, player2, self.gameType)
             
             winner = game.PlayGame()
             

@@ -11,3 +11,6 @@ class AbstractGameType(ABC):
     @abstractmethod
     def GetStartingBoard(self):
         pass
+    
+    def GetNewNeuralNetwork(self):
+        pass
