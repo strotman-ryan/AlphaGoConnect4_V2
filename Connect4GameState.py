@@ -108,7 +108,12 @@ class Connect4GameState(AbstractGameState):
 	def whosMove(self):
         return 1 if self.board.board.sum() == 0 else -1
 		
-	
+	def GetNextStateFromHuman(self):
+        print(self.board)
+        column = int(input("Input Valid Move From 0-6: "))
+		newGameState = Connect4GameState(self.board.copy())
+		newGameState.addPlayerMove(column)
+        return newGameState
 	
 	
 	#returns an enum from Result based on board state
