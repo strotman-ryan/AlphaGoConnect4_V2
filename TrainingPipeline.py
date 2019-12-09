@@ -5,7 +5,7 @@ Created on Sun Dec  8 17:35:45 2019
 @author: strotman.7
 """
 from DummyGameNN import DummyGameNN
-from DummyGame import DummyGame
+from DummyGameType import DummyGameType
 from Evaluator import Evaluator
 from SelfPlay import SelfPlay
 from AIPlayerFactory import AIPlayerFactory
@@ -34,7 +34,7 @@ class TrainingPipeline:
         return self.neuralNetwork
     
 
-pipeline = TrainingPipeline(DummyGame(), DummyGameNN())
+pipeline = TrainingPipeline(DummyGameType(), DummyGameNN())
 pipeline.Train()
         
 nn = DummyGameNN()

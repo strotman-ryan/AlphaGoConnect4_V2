@@ -12,17 +12,19 @@ class DummyGameNN:
         self.movesNN = DummyGameMoveNN()
         self.policyNN = DummyGamePolicyNN()
 
-    def GetProbabilities(self,board_rep):
+    def GetMoveProbabilities(self,gameState):
+        board_rep = gameState.board
         return self.movesNN.Predict(np.array([self.translateBoardRep(board_rep.copy())]))
 
-    def GetProbOfWinning(self,board_rep):
+    def GetProbabilityOfWinning(self,gameState):
+        board_rep = gameState.board
         return self.policyNN.Predict(np.array([self.translateBoardRep(board_rep.copy())]))  # need to make it (1,8)
 
-    def Train(self,training_examples):
+    def Train(self,trainingExamples):
         results = np.array([])
         pis = np.array([[0,0,0,0]])
         boards = np.array([[0,0,0,0,0,0,0,0]])
-        for example in training_examples:
+        for example in trainingExamples:
             results = np.append(results, example.result)
             board = example.gameState.board
             board = self.translateBoardRep(board)
@@ -40,13 +42,13 @@ class DummyGameNN:
         board_rep_p2[board_rep_p2 != -1] = 0
         return np.append(board_rep_p1, board_rep_p2) 
     
-    def Save(self, fileNames):
-        fileNames = fileNames.split()
+    def Save(self, fileName):
+        fileNames = fileName.split()
         self.policyNN.Save(fileNames[0])
         self.movesNN.Save(fileNames[1])
     
-    def Load(self, fileNames):
-        fileNames = fileNames.split()
+    def Load(self, fileName):
+        fileNames = fileName.split()
         self.policyNN.Load(fileNames[0])
         self.movesNN.Load(fileNames[1])
 
