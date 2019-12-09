@@ -18,18 +18,19 @@ class Connect4GameState(AbstractGameState):
 	'''
 	def GetNextStatesWithProbabilites(self, neuralNetworks):
 		probabilities = neuralNetworks.GetProbabilities(self.board)
-		children = []
-		returnedProbabilities = []
+		children = np.array([])
+		returnedProbabilities = np.array([])
 		validMoves = self.getPossibleMoves()
+		print(validMoves)
 		for move in range(0,7):
 			newBoard = self.board.copy()
 			newGameState = Connect4GameState(newBoard)
 			if move in validMoves:
 				newGameState.addPlayerMove(move)
-				children.append(newGameState)
-				returnedProbabilities.append(probabilities[move])
+				children = np.append(children,newGameState)
+				returnedProbabilities = np.append(returnedProbabilities, probabilities[move])
 		returnedProbabilities = returnedProbabilities / returnedProbabilities.sum() #renormalize
-		return (children, probabilities)
+		return (children, returnedProbabilities)
 		
 	'''
 	returns true if end of game
@@ -176,11 +177,11 @@ class Connect4GameState(AbstractGameState):
 	
 	#returns a set of columns that have at least one open spot
 	def getPossibleMoves(self):
-		moves = set()
+		moves = np.array([])
 		for column in range(7):
-			if (len(np.where(self.board[:,column] == 0)) == 0):
-				moves.push(column)
-		
+			#if (len(np.where(self.board[:,column] == 0)) == 0):
+			if (self.board[:,column] == 0).sum() > 0:
+				moves = np.append(moves,column)
 		return moves
 		
 	#Update the board 
