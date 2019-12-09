@@ -12,9 +12,9 @@ from TrainingExample import TrainingExample
 class TrainingGame:
     
     
-    def __init__(self, aiPlayer, game):
+    def __init__(self, aiPlayer, gameType):
         self.ai = aiPlayer
-        self.gameState = game.GetStartingBoard()
+        self.gameState = gameType.GetStartingBoard()
         self.trainingData = np.array([])
         
     def PlayGame(self):

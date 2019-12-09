@@ -9,10 +9,10 @@ Created on Sun Dec  8 17:43:46 2019
 class Game_Final:
     
     
-    def __init__(self, player1, player2, game):
+    def __init__(self, player1, player2, gameType):
         self.player1 = player1
         self.player2 = player2
-        self.gameState = game.GetStartingBoard()
+        self.gameState = gameType.GetStartingBoard()
         
     '''
     returns 1 if player1 won
