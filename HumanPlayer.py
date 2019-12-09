@@ -9,5 +9,5 @@ class HumanPlayer(AbstractPlayer):
         return
     
     #returns column (0 -> columns -1) to make move in
-    def MakeMove(self,board):
-        return int(input("Input a column 0-6: "))
+    def MakeMove(self,gameState):
+        return (gameState.GetNextStateFromHuman(), 0)

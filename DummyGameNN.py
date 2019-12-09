@@ -8,10 +8,9 @@ import pandas as pd
 
 class DummyGameNN:
     
-    def __init__(self, policyNN, movesNN):
-        self.movesNN = movesNN
-        self.policyNN = policyNN
-        return
+    def __init__(self):
+        self.movesNN = MoveNN()
+        self.policyNN = PolicyNN()
 
     def GetProbabilities(self,board_rep):
         return self.movesNN.Predict(np.array([self.translateBoardRep(board_rep.copy())]))
@@ -68,7 +67,6 @@ class MoveNN:
         return self.model.predict(board_rep)[0]
     
     def Train(self, board_reps, pis):
-        print(pis)
         self.model.fit(board_reps,pis, epochs = 20, batch_size = 8)
     
 
