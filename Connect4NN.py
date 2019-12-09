@@ -22,14 +22,14 @@ class Connect4NN(AbstractNeuralNetwork):
 		return self.movesNN.Predict(transformedRep)
 	
 	def Train(self, trainingExamples):
-		results = []
-		pis = []
-		boards = []
+		results = np.array([])
+		pis = np.array([])
+		boards = np.array([])
 		for example in trainingExamples:
-			results.append(example.result)
-			pis.append(example.pi)
+			results = np.append(results, example.result)
+			pis = np.append(pis, example.pi)
 			board_rep = example.gameState.board.copy()
-			boards.append(self.transformBoard(board_rep))
+			boards = np.append(boards, self.transformBoard(board_rep))
 		self.winNN.Train(boards, results)
 		self.movesNN.Train(boards, pis)
 	
