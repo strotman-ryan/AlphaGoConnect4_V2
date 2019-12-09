@@ -24,15 +24,17 @@ class Connect4GameState(AbstractGameState):
     '''
     def GetNextStatesWithProbabilites(self, neuralNetworks):
         probabilities = neuralNetworks.GetProbabilities(self.board)
-		children = np.array()
+		children = []
+		returnedProbabilities = []
 		validMoves = self.getPossibleMoves()
 		for move in range(0,7):
 			newBoard = self.board.copy()
 			newGameState = Connect4GameState(newBoard)
-			
 			if move in validMoves:
 				newGameState.addPlayerMove(move)
-			children.append(newGameState)
+				children.append(newGameState)
+				returnedProbabilities.append(probabilities[move])
+		returnedProbabilities = returnedProbabilities / returnedProbabilities.sum() #renormalize
 		return (children, probabilities)
 		
 	'''
@@ -99,8 +101,8 @@ class Connect4GameState(AbstractGameState):
 		possibleMoves = self.getPossibleMoves()
 		for move in range(0,7):
 			if move not in possibleMoves:
-				arrayOfProbabilites[move] = 0
-        pass
+				arrayOfProbabilites.insert(move, 0)
+        return arrayOfProbabilites
 		
 	'''
 	returns 1 if its Player1's turn, -1 if its Player2's turn
