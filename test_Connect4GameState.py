@@ -29,10 +29,12 @@ class nn_test:
 game = RealGame(HumanPlayer(), HumanPlayer(),Connect4GameType())
 print(game.PlayGame())
 '''
-
-state = Connect4GameState(np.zeros((6,7)))
+test_board = np.zeros((6,7))
+#test_board[:,0] = 1
+test_board[5,0] = 1
+state = Connect4GameState(test_board)
 states, probs = state.GetNextStatesWithProbabilites(nn_test())
-print(states)
+print(probs)
 for s in states:
     print(s.board)
 
