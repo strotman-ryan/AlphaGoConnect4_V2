@@ -14,7 +14,7 @@ class DummyGameState(AbstractGameState):
     # list of probabilities to that move
     # probability of whos turn it is to win= x
     def GetNextStatesWithProbabilites(self,neuralNetworks):
-        probabilities = neuralNetworks.GetProbabilities(self.board)
+        probabilities = neuralNetworks.GetMoveProbabilities(self)
         return self.determinePossibleMoves(probabilities)
     
     
@@ -27,7 +27,7 @@ class DummyGameState(AbstractGameState):
     # need to come back to this
     def ProbabilityOfWinning(self,neuralNetworks):
         if not self.IsTerminal():
-            return neuralNetworks.GetProbOfWinning(self.board)
+            return neuralNetworks.GetProbabilityOfWinning(self)
         print("Error")
 
     

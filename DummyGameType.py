@@ -6,8 +6,9 @@ Created on Sun Dec  8 15:12:27 2019
 """
 from DummyGameState import DummyGameState
 import numpy as np
+from AbstractGameType import AbstractGameType
 
-class DummyGame:
+class DummyGameType(AbstractGameType):
     
     def __init__(self):
         pass

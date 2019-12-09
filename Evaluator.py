@@ -5,9 +5,6 @@ Created on Sun Dec  8 18:17:58 2019
 @author: strotman.7
 """
 from Game_Final import Game_Final
-from AIPlayer import AIPlayer
-from MCTS import MCTS
-from DummyGame import DummyGame
 from AIPlayerFactory import AIPlayerFactory
 
 
