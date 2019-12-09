@@ -13,8 +13,8 @@ from AIPlayerFactory import AIPlayerFactory
 
 class TrainingPipeline:
     
-    def __init__(self, game, neuralNetwork):
-        self.game = game
+    def __init__(self, gameType, neuralNetwork):
+        self.gameType = gameType
         self.neuralNetwork = neuralNetwork
         self.aiFactory = AIPlayerFactory()
     
@@ -22,11 +22,11 @@ class TrainingPipeline:
     def Train(self):
         for _ in range(4):
             aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
-            selfPlay = SelfPlay(aiPlayer, self.game)
+            selfPlay = SelfPlay(aiPlayer, self.gameType)
             selfPlay.PlayGames(100)
-            nn = DummyGameNN()
+            nn = self.gameType.GetNewNeuralNetwork()
             nn.Train(selfPlay.GetData())
-            evaluator = Evaluator(self.neuralNetwork, nn, self.game)
+            evaluator = Evaluator(self.neuralNetwork, nn, self.gameType)
             if evaluator.IsNN2BetterThanNN1(100):
                 print("replacing NN")
             self.neuralNetwork = nn
