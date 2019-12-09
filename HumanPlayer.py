@@ -10,4 +10,4 @@ class HumanPlayer(AbstractPlayer):
     
     #returns column (0 -> columns -1) to make move in
     def MakeMove(self,gameState):
-        return (gameState.GetNextStateFromHuman(), 0)
+        return (gameState.GetNextStateFromHuman(), None)
