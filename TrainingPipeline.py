@@ -4,12 +4,11 @@ Created on Sun Dec  8 17:35:45 2019
 
 @author: strotman.7
 """
-from MCTS import MCTS
-from DummyGameNN import PolicyNN, DummyGameNN, MoveNN
-from AIPlayer import AIPlayer
+from DummyGameNN import DummyGameNN
 from DummyGame import DummyGame
 from Evaluator import Evaluator
 from SelfPlay import SelfPlay
+from AIPlayerFactory import AIPlayerFactory
 
 
 class TrainingPipeline:
@@ -17,11 +16,12 @@ class TrainingPipeline:
     def __init__(self, game, neuralNetwork):
         self.game = game
         self.neuralNetwork = neuralNetwork
+        self.aiFactory = AIPlayerFactory()
     
     
     def Train(self):
-        for _ in range(1):
-            aiPlayer = AIPlayer(self.neuralNetwork, MCTS(), 1)
+        for _ in range(4):
+            aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
             selfPlay = SelfPlay(aiPlayer, self.game)
             selfPlay.PlayGames(100)
             nn = DummyGameNN()
@@ -29,10 +29,13 @@ class TrainingPipeline:
             evaluator = Evaluator(self.neuralNetwork, nn, self.game)
             if evaluator.IsNN2BetterThanNN1(100):
                 print("replacing NN")
-                self.neuralNetwork = nn
+            self.neuralNetwork = nn
+        self.neuralNetwork.Save("policy move")
         return self.neuralNetwork
     
 
 pipeline = TrainingPipeline(DummyGame(), DummyGameNN())
 pipeline.Train()
         
+nn = DummyGameNN()
+nn.Load("policy move")
