@@ -4,17 +4,17 @@ from AbstractPlayer import AbstractPlayer
 
 
 class AIPlayer(AbstractPlayer):
-    num_rollouts = 7
     
-    def __init__(self, neuralNetworks, mcts,temperture):
+    def __init__(self, neuralNetworks, mcts,temperture, numRollouts):
         self.neuralNetworks = neuralNetworks
         self.mcts = mcts
         self.temperture = temperture
+        self.numRollouts = numRollouts
     
     #returns column (0 -> columns -1) to make move in
     def MakeMove(self,gameState):
         self.mcts.SetRootNode(gameState)
-        self.mcts.DoSearch(self.neuralNetworks, AIPlayer.num_rollouts)
+        self.mcts.DoSearch(self.neuralNetworks, self.numRollouts)
         nextGameState, pi = self.mcts.ChooseMove(self.temperture)
         return nextGameState, pi
         

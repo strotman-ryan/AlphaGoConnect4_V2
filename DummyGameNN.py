@@ -1,7 +1,7 @@
 
 import numpy as np
 
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense
 from keras import losses
 import pandas as pd
@@ -9,8 +9,8 @@ import pandas as pd
 class DummyGameNN:
     
     def __init__(self):
-        self.movesNN = MoveNN()
-        self.policyNN = PolicyNN()
+        self.movesNN = DummyGameMoveNN()
+        self.policyNN = DummyGamePolicyNN()
 
     def GetProbabilities(self,board_rep):
         return self.movesNN.Predict(np.array([self.translateBoardRep(board_rep.copy())]))
@@ -39,9 +39,19 @@ class DummyGameNN:
         board_rep_p1[board_rep_p1 != 1] = 0
         board_rep_p2[board_rep_p2 != -1] = 0
         return np.append(board_rep_p1, board_rep_p2) 
+    
+    def Save(self, fileNames):
+        fileNames = fileNames.split()
+        self.policyNN.Save(fileNames[0])
+        self.movesNN.Save(fileNames[1])
+    
+    def Load(self, fileNames):
+        fileNames = fileNames.split()
+        self.policyNN.Load(fileNames[0])
+        self.movesNN.Load(fileNames[1])
 
 #produces probabilty of winning for whos turn it is
-class PolicyNN:
+class DummyGamePolicyNN:
     
     def __init__(self):
         self.model = Sequential()
@@ -54,8 +64,16 @@ class PolicyNN:
 
     def Train(self, board_reps, outcomes):
         self.model.fit(board_reps, outcomes, epochs = 20, batch_size = 50)
+        
+    def Save(self, fileName):
+        fileName = fileName + '.h5'
+        self.model.save(fileName)
+    
+    def Load(self, fileName):
+        fileName = fileName + '.h5'
+        self.model = load_model(fileName)
 
-class MoveNN:
+class DummyGameMoveNN:
     
     def __init__(self):
         self.model = Sequential()
@@ -68,6 +86,14 @@ class MoveNN:
     
     def Train(self, board_reps, pis):
         self.model.fit(board_reps,pis, epochs = 20, batch_size = 8)
+        
+    def Save(self, fileName):
+        fileName = fileName + '.h5'
+        self.model.save(fileName)
+    
+    def Load(self, fileName):
+        fileName = fileName + '.h5'
+        self.model = load_model(fileName)
     
 
 

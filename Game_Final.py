@@ -5,11 +5,6 @@ Created on Sun Dec  8 17:43:46 2019
 @author: strotman.7
 """
 
-from MCTS import MCTS
-from DummyGameNN import PolicyNN, DummyGameNN, MoveNN
-from AIPlayer import AIPlayer
-from DummyGame import DummyGame
-from HumanPlayer import HumanPlayer
 
 class Game_Final:
     
@@ -35,9 +30,3 @@ class Game_Final:
         #from player1s view
         result = self.gameState.ValueOfWinner()
         return result
-'''
-player1 = AIPlayer(DummyGameNN(PolicyNN(),MoveNN()),MCTS(), 1)
-player2 = HumanPlayer()
-game = Game_Final(player1, player2,DummyGame() )
-game.PlayGame()
-'''
