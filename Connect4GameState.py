@@ -9,13 +9,6 @@ class Connect4GameState(AbstractGameState):
 	def __init__(self,rep_of_board):
         self.board = rep_of_board
 
-	'''
-	Returns an empty representation of the game
-	'''
-	def GetStartingBoard():
-		rows = 6
-		columns = 7
-		return Connect4GameState(np.zeros((rows,columns)))
 		
 		
 	'''
