@@ -2,6 +2,7 @@ import numpy as np
 import copy
 
 import Result
+from AbstractGameState import AbstractGameState
 
 class Connect4GameState(AbstractGameState):
 
