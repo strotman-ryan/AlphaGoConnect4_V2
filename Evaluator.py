@@ -10,10 +10,10 @@ from AIPlayerFactory import AIPlayerFactory
 
 class Evaluator:
     
-    def __init__(self, neuralNetwork1, neuralNetwork2, game):
+    def __init__(self, neuralNetwork1, neuralNetwork2, gameType):
         self.neuralNetwork1 = neuralNetwork1
         self.neuralNetwork2 = neuralNetwork2
-        self.game = game
+        self.gameType = gameType
         self.aiFactory = AIPlayerFactory()
         
     '''
@@ -30,7 +30,7 @@ class Evaluator:
                 player1 = self.aiFactory.GetEvaluatorAI(self.neuralNetwork2)
                 player2 = self.aiFactory.GetEvaluatorAI(self.neuralNetwork1)
                 
-            game = Game_Final(player1, player2, self.game)
+            game = Game_Final(player1, player2, self.gameType)
             
             winner = game.PlayGame()
             
