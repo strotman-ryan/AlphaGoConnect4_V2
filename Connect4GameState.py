@@ -22,13 +22,12 @@ class Connect4GameState(AbstractGameState):
 		returnedProbabilities = np.array([])
 		validMoves = self.getPossibleMoves()
 		print(validMoves)
-		for move in range(0,7):
+		for move in validMoves:
 			newBoard = self.board.copy()
 			newGameState = Connect4GameState(newBoard)
-			if move in validMoves:
-				newGameState.addPlayerMove(move)
-				children = np.append(children,newGameState)
-				returnedProbabilities = np.append(returnedProbabilities, probabilities[move])
+			newGameState.addPlayerMove(move)
+			children = np.append(children,newGameState)
+			returnedProbabilities = np.append(returnedProbabilities, probabilities[move])
 		returnedProbabilities = returnedProbabilities / returnedProbabilities.sum() #renormalize
 		return (children, returnedProbabilities)
 		
