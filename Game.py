@@ -60,7 +60,7 @@ class Game:
 	#returns a set of columns that have at least one open spot
 	def possibleMoves(self):
 		moves = set()
-		var i = 0;
+		var i = 0
 		for column in range(7):
 			if (len(np.where(self.board[:,column] == 0)) == 0):
 				moves.push(column)
