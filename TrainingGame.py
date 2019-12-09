@@ -7,6 +7,10 @@ Created on Sun Dec  8 15:10:17 2019
 
 import numpy as np
 from TrainingExample import TrainingExample
+from AIPlayer import AIPlayer
+from DummyGameNN import DummyGameNN
+from MCTS import MCTS
+from DummyGame import DummyGame
 
 class TrainingGame:
     
@@ -29,4 +33,3 @@ class TrainingGame:
         
     def GetTraingData(self):
         return self.trainingData
-

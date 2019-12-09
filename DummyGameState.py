@@ -56,6 +56,12 @@ class DummyGameState(AbstractGameState):
             arrayOfProbabilites = np.insert(arrayOfProbabilites, index, 0)
         return arrayOfProbabilites
     
+    def GetNextStateFromHuman(self):
+        print(self.board)
+        x = int(input("Input:"))
+        self.board[x] = self.whosMove()
+        return DummyGameState(self.board)
+    
     def IsSameAs(self, gameState):
         pass
         

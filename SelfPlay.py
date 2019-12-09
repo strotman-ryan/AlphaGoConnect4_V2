@@ -6,10 +6,7 @@ Created on Sun Dec  8 15:45:27 2019
 """
 import numpy as np
 from TrainingGame import TrainingGame
-from MCTS import MCTS
-from DummyGameNN import PolicyNN, DummyGameNN, MoveNN
-from AIPlayer import AIPlayer
-from DummyGame import DummyGame
+
 
 class SelfPlay:
     
@@ -29,11 +26,6 @@ class SelfPlay:
         return self.trainingExamples
 
   
-nn = DummyGameNN(PolicyNN(), MoveNN())
-for _ in range(6):
-    aiPlayer = AIPlayer(nn, MCTS())
-    selfPlay = SelfPlay(aiPlayer, DummyGame())
-    selfPlay.PlayGames(1000)
-    nn.Train(selfPlay.GetData())
+
 
 
