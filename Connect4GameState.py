@@ -40,6 +40,13 @@ class Connect4GameState(AbstractGameState):
     def IsTerminal(self):
 		return self.EvaluateBoard() != Result.NotFinished
 		
+	'''
+    determines if two games states are the same
+    return boolean
+    '''
+    def IsSameAs(self, gameState):
+        return np.equal(self.board, gameState.board)
+	
     '''
     returns what NN determines
     if a terminal node returns the value with respect to whos turn it is
