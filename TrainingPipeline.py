@@ -9,13 +9,14 @@ from DummyGameType import DummyGameType
 from Evaluator import Evaluator
 from SelfPlay import SelfPlay
 from AIPlayerFactory import AIPlayerFactory
+from Connect4GameType import Connect4GameType
 
 
 class TrainingPipeline:
     
-    def __init__(self, gameType, neuralNetwork):
+    def __init__(self, gameType):
         self.gameType = gameType
-        self.neuralNetwork = neuralNetwork
+        self.neuralNetwork = gameType.GetNewNeuralNetwork()
         self.aiFactory = AIPlayerFactory()
     
     
@@ -23,18 +24,18 @@ class TrainingPipeline:
         for _ in range(4):
             aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
             selfPlay = SelfPlay(aiPlayer, self.gameType)
-            selfPlay.PlayGames(100)
+            selfPlay.PlayGames(30)
             nn = self.gameType.GetNewNeuralNetwork()
             nn.Train(selfPlay.GetData())
             evaluator = Evaluator(self.neuralNetwork, nn, self.gameType)
-            if evaluator.IsNN2BetterThanNN1(100):
+            if evaluator.IsNN2BetterThanNN1(8):
                 print("replacing NN")
-            self.neuralNetwork = nn
-        self.neuralNetwork.Save("policy move")
+                self.neuralNetwork = nn
+            self.neuralNetwork.Save("policy move")
         return self.neuralNetwork
     
 
-pipeline = TrainingPipeline(DummyGameType(), DummyGameNN())
+pipeline = TrainingPipeline(Connect4GameType())
 pipeline.Train()
         
 nn = DummyGameNN()

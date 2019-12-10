@@ -17,18 +17,16 @@ class Connect4GameState(AbstractGameState):
 	return array of probabilities produced by NN and renormalized
 	'''
 	def GetNextStatesWithProbabilites(self, neuralNetworks):
-		probabilities = neuralNetworks.GetProbabilities(self.board)
+		probabilities = neuralNetworks.GetMoveProbabilites(self)
 		children = np.array([])
 		returnedProbabilities = np.array([])
 		validMoves = self.getPossibleMoves()
-		print(validMoves)
-		for move in range(0,7):
+		for move in validMoves:
 			newBoard = self.board.copy()
 			newGameState = Connect4GameState(newBoard)
-			if move in validMoves:
-				newGameState.addPlayerMove(move)
-				children = np.append(children,newGameState)
-				returnedProbabilities = np.append(returnedProbabilities, probabilities[move])
+			newGameState.addPlayerMove(move)
+			children = np.append(children,newGameState)
+			returnedProbabilities = np.append(returnedProbabilities, probabilities[move])
 		returnedProbabilities = returnedProbabilities / returnedProbabilities.sum() #renormalize
 		return (children, returnedProbabilities)
 		
@@ -51,7 +49,7 @@ class Connect4GameState(AbstractGameState):
 	'''
 	def ProbabilityOfWinning(self,neuralNetworks):
 		if not self.IsTerminal():
-			return neuralNetworks.GetProbOfWinning(self.board)
+			return neuralNetworks.GetProbabilityOfWinning(self)
 		print("Error - looking at terminal node in ProbabilityOfWinning")	
 		
 	'''
@@ -79,7 +77,7 @@ class Connect4GameState(AbstractGameState):
 		possibleMoves = self.getPossibleMoves()
 		for move in range(0,7):
 			if move not in possibleMoves:
-				arrayOfProbabilites.insert(move, 0)
+				arrayOfProbabilites = np.insert(arrayOfProbabilites,move, 0)
 		return arrayOfProbabilites
 		
 	'''
@@ -177,9 +175,8 @@ class Connect4GameState(AbstractGameState):
 	
 	#returns a set of columns that have at least one open spot
 	def getPossibleMoves(self):
-		moves = np.array([])
+		moves = np.array([], dtype = int)
 		for column in range(7):
-			#if (len(np.where(self.board[:,column] == 0)) == 0):
 			if (self.board[:,column] == 0).sum() > 0:
 				moves = np.append(moves,column)
 		return moves

@@ -42,5 +42,7 @@ class Evaluator:
                 nn2WinCount += 1
             if num % 2 != 0 and winner == 0:
                 nn1WinCount += 1
+        print(nn1WinCount)
+        print(nn2WinCount)
         return nn2WinCount > nn1WinCount     
 
