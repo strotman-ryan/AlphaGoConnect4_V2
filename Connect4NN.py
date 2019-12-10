@@ -35,12 +35,12 @@ class Connect4NN(AbstractNeuralNetwork):
 
 	def Save(self, fileName):
 		fileNames = fileName.split()
-		self.policyNN.Save(fileNames[0])
+		self.winNN.Save(fileNames[0])
 		self.movesNN.Save(fileNames[1])
 
 	def Load(self, fileName):
 		fileNames = fileName.split()
-		self.policyNN.Load(fileNames[0])
+		self.winNN.Load(fileNames[0])
 		self.movesNN.Load(fileNames[1])
 		
 	def transformBoard(self, board_rep):
