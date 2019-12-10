@@ -28,4 +28,5 @@ class EdgeStats:
         self.calculateQ()
         
     def CalculateQplusU(self,total_n):
-        return self.Q + EdgeStats.const * self.P * math.sqrt(total_n) / (1 + self.N)
+        result = self.Q + EdgeStats.const * self.P * math.sqrt(total_n) / (1 + self.N)
+        return result

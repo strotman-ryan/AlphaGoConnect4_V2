@@ -2,6 +2,7 @@ import numpy as np
 
 from Connect4GameState import Connect4GameState
 from AbstractGameType import AbstractGameType
+from Connect4NN import Connect4NN
 
 class Connect4GameType(AbstractGameType):
     
@@ -18,4 +19,4 @@ class Connect4GameType(AbstractGameType):
     
     
     def GetNewNeuralNetwork(self):
-        print("Need to implement this")
+        return Connect4NN()
