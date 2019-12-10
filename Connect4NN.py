@@ -22,14 +22,14 @@ class Connect4NN(AbstractNeuralNetwork):
 		return self.winNN.Predict(np.array([transformedRep]))
 
 	def Train(self, trainingExamples):
-		results = []
-		pis = []
-		boards = []
+		results = np.array([])
+		pis = np.array([])
+		boards = np.array([])
 		for example in trainingExamples:
-			results.append(example.result)
-			pis.append(example.pi)
+			results = np.append(results, example.result)
+			pis = np.append(pis, example.pi)
 			board_rep = example.gameState.board.copy()
-			boards.append(self.transformBoard(board_rep))
+			boards = np.append(boards, self.transformBoard(board_rep))
 		self.winNN.Train(boards, results)
 		self.movesNN.Train(boards, pis)
 
@@ -59,7 +59,6 @@ class Connect4WinNN:
 		self.model.add(Dense(units = 20, activation = 'relu'))
 		self.model.add(Dense(units = 1, activation = 'softmax'))
 		self.model.compile(loss = 'mean_squared_error', optimizer = 'sgd', metrics = ['accuracy'])
-
 	def Predict(self, board_rep):
 		return self.model.predict(board_rep)[0][0]
 		
@@ -70,7 +69,6 @@ class Connect4WinNN:
 	def Save(self, fileName):
 		fileName = fileName + '.h5'
 		self.model.save(fileName)
-
 	def Load(self, fileName):
 		fileName = fileName + '.h5'
 		self.model = load_model(fileName)
@@ -83,7 +81,6 @@ class Connect4MoveNN:
 		self.model.add(Dense(units = 20,activation = 'relu'))
 		self.model.add(Dense(units = 7, activation = 'softmax'))
 		self.model.compile(loss = 'categorical_crossentropy', optimizer = 'sgd', metrics = ['accuracy'])
-
 	def Predict(self, board_rep):
 		return self.model.predict(board_rep)[0]
 		
