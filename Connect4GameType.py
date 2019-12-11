@@ -18,5 +18,13 @@ class Connect4GameType(AbstractGameType):
         return Connect4GameState(np.zeros((rows,columns)))
     
     
+    def GetOldNeuralNetwork(self, loadString):
+        try: 
+            nn = Connect4NN()
+            nn.Load(loadString)
+            return nn
+        except:
+            return self.GetNewNeuralNetwork()
+    
     def GetNewNeuralNetwork(self):
         return Connect4NN()

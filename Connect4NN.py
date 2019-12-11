@@ -22,14 +22,16 @@ class Connect4NN(AbstractNeuralNetwork):
 		return self.winNN.Predict(np.array([transformedRep]))
 
 	def Train(self, trainingExamples):
-		results = np.array([])
-		pis = np.array([])
-		boards = np.array([])
+		results = []
+		pis = []
+		boards = []
 		for example in trainingExamples:
-			results = np.append(results, example.result)
-			pis = np.append(pis, example.pi)
-			board_rep = example.gameState.board.copy()
-			boards = np.append(boards, self.transformBoard(board_rep))
+			results.append(example.result)
+			pis.append(example.pi)
+			board_rep = example.gameState.board
+			boards.append(self.transformBoard(board_rep))
+		pis = np.array(pis) 
+		boards = np.array(boards)
 		self.winNN.Train(boards, results)
 		self.movesNN.Train(boards, pis)
 
@@ -57,14 +59,13 @@ class Connect4WinNN:
 		self.model = Sequential()
 		self.model.add(Dense(units = 100, activation = 'relu', input_dim = 84))
 		self.model.add(Dense(units = 20, activation = 'relu'))
-		self.model.add(Dense(units = 1, activation = 'softmax'))
+		self.model.add(Dense(units = 1, activation = 'sigmoid'))
 		self.model.compile(loss = 'mean_squared_error', optimizer = 'sgd', metrics = ['accuracy'])
 	def Predict(self, board_rep):
 		return self.model.predict(board_rep)[0][0]
 		
 	def Train(self, board_reps, outcomes):
-		board_reps = np.array(board_reps)
-		self.model.fit(board_reps, outcomes, epochs = 20, batch_size = 50)
+		self.model.fit(board_reps, outcomes, epochs = 100, batch_size = 50)
 		
 	def Save(self, fileName):
 		fileName = fileName + '.h5'
@@ -78,16 +79,15 @@ class Connect4MoveNN:
 	def __init__(self):
 		self.model = Sequential()
 		self.model.add(Dense(units = 100, activation = 'relu', input_dim = 84))
-		self.model.add(Dense(units = 20,activation = 'relu'))
-		self.model.add(Dense(units = 7, activation = 'softmax'))
+		#self.model.add(Dense(units = 70,activation = 'relu'))  #added this line
+		self.model.add(Dense(units = 20,activation = 'relu'))  
+		self.model.add(Dense(units = 7, activation = 'softmax'))  
 		self.model.compile(loss = 'categorical_crossentropy', optimizer = 'sgd', metrics = ['accuracy'])
 	def Predict(self, board_rep):
 		return self.model.predict(board_rep)[0]
 		
 	def Train(self, board_reps, pis):
-		board_reps = np.array(board_reps)
-		pis = np.array(pis)
-		self.model.fit(board_reps, pis, epochs = 20, batch_size = 8)
+		self.model.fit(board_reps, pis, epochs = 100, batch_size = 50)
 		
 	def Save(self, fileName):
 		fileName = fileName + '.h5'

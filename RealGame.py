@@ -4,7 +4,10 @@ Created on Sun Dec  8 17:43:46 2019
 
 @author: strotman.7
 """
-
+from HumanPlayer import HumanPlayer
+from Connect4NN import Connect4NN
+from AIPlayerFactory import AIPlayerFactory
+from Connect4GameType import Connect4GameType
 
 class RealGame:
     
@@ -30,3 +33,12 @@ class RealGame:
         #from player1s view
         result = self.gameState.ValueOfWinner()
         return result
+  
+
+player1 = HumanPlayer()
+nn = Connect4NN()
+nn.Load("policy4 move4")
+player2 = AIPlayerFactory().GetPlayHumanAI(nn)
+game = RealGame(player1, player2, Connect4GameType())
+game.PlayGame()
+

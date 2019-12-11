@@ -41,7 +41,7 @@ class Connect4GameState(AbstractGameState):
     return boolean
     '''
 	def IsSameAs(self, gameState):
-		return np.equal(self.board, gameState.board)
+		return np.array_equal(self.board, gameState.board)
 	
 	'''
 	returns what NN determines
@@ -88,13 +88,21 @@ class Connect4GameState(AbstractGameState):
 		return 1 if self.board.sum() == 0 else -1
 		
 	def GetNextStateFromHuman(self):
-		print(self.board)
+		self.printBoard()
 		column = int(input("Input Valid Move From 0-6: "))
 		newGameState = Connect4GameState(self.board.copy())
 		newGameState.addPlayerMove(column)
 		return newGameState
-	
-	
+
+	def printBoard(self):
+		boardCopy = self.board.astype(int).astype(str)
+		boardCopy[boardCopy == '0'] = "_"
+		boardCopy[boardCopy == '1'] = "O"
+		boardCopy[boardCopy == '-1'] = "X"
+		for row in range(6):
+			print(''.join(boardCopy[row]))
+		#print(boardCopy)
+					
 	def checkVertical(self, result):
 		for column in range(7):
 			if result != Result.NotFinished:
