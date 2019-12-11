@@ -16,6 +16,15 @@ class MCTS:
     TODO should search for children of rootnode but easy implementaion hear
     '''
     def SetRootNode(self, gameState):
+        if self.root_node is None:
+            self.root_node = MCTSNode(gameState)
+            return
+        if self.root_node.gameState.IsSameAs(gameState):
+            return
+        for child in self.root_node.children:
+            if child.gameState.IsSameAs(gameState):
+                self.root_node = child
+                return
         self.root_node = MCTSNode(gameState)
         
         

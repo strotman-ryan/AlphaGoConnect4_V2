@@ -13,30 +13,32 @@ from Connect4GameType import Connect4GameType
 
 
 class TrainingPipeline:
+    load_str = "policy4 move4"
     
     def __init__(self, gameType):
         self.gameType = gameType
-        self.neuralNetwork = gameType.GetNewNeuralNetwork()
+        self.neuralNetwork = gameType.GetOldNeuralNetwork(TrainingPipeline.load_str)
         self.aiFactory = AIPlayerFactory()
     
     
     def Train(self):
-        for _ in range(4):
+        counter = 0
+        for _ in range(20):
             aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
             selfPlay = SelfPlay(aiPlayer, self.gameType)
-            selfPlay.PlayGames(30)
+            selfPlay.PlayGames(3)
             nn = self.gameType.GetNewNeuralNetwork()
             nn.Train(selfPlay.GetData())
             evaluator = Evaluator(self.neuralNetwork, nn, self.gameType)
-            if evaluator.IsNN2BetterThanNN1(8):
+            if evaluator.IsNN2BetterThanNN1(10):
                 print("replacing NN")
                 self.neuralNetwork = nn
-            self.neuralNetwork.Save("policy move")
+                counter += 1
+            self.neuralNetwork.Save(TrainingPipeline.load_str)
+        print(counter)
         return self.neuralNetwork
     
 
 pipeline = TrainingPipeline(Connect4GameType())
 pipeline.Train()
         
-nn = DummyGameNN()
-nn.Load("policy move")
