@@ -13,7 +13,7 @@ from Connect4GameType import Connect4GameType
 
 
 class TrainingPipeline:
-    load_str = "policy4 move4"
+    load_str = "policy move"
     
     def __init__(self, gameType):
         self.gameType = gameType
@@ -26,11 +26,11 @@ class TrainingPipeline:
         for _ in range(20):
             aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
             selfPlay = SelfPlay(aiPlayer, self.gameType)
-            selfPlay.PlayGames(3)
+            selfPlay.PlayGames(1)
             nn = self.gameType.GetNewNeuralNetwork()
             nn.Train(selfPlay.GetData())
             evaluator = Evaluator(self.neuralNetwork, nn, self.gameType)
-            if evaluator.IsNN2BetterThanNN1(10):
+            if evaluator.IsNN2BetterThanNN1(6):
                 print("replacing NN")
                 self.neuralNetwork = nn
                 counter += 1

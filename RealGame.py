@@ -37,7 +37,7 @@ class RealGame:
 
 player1 = HumanPlayer()
 nn = Connect4NN()
-nn.Load("policy4 move4")
+nn.Load("policy move")
 player2 = AIPlayerFactory().GetPlayHumanAI(nn)
 game = RealGame(player1, player2, Connect4GameType())
 game.PlayGame()

@@ -22,4 +22,4 @@ class AIPlayerFactory:
         return AIPlayer(neuralNetworks, MCTS(), .1, 10)
     
     def GetPlayHumanAI(self,neuralNetworks):
-        return AIPlayer(neuralNetworks, MCTS(), .1, 2000)
+        return AIPlayer(neuralNetworks, MCTS(), .1, 100)
