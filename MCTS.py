@@ -16,6 +16,8 @@ class MCTS:
     TODO should search for children of rootnode but easy implementaion hear
     '''
     def SetRootNode(self, gameState):
+        self.root_node = MCTSNode(gameState)
+        '''
         if self.root_node is None:
             self.root_node = MCTSNode(gameState)
             return
@@ -26,6 +28,7 @@ class MCTS:
                 self.root_node = child
                 return
         self.root_node = MCTSNode(gameState)
+        '''
         
         
     #run the search for num_rollouts
