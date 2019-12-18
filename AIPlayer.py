@@ -17,6 +17,9 @@ class AIPlayer(AbstractPlayer):
         self.mcts.DoSearch(self.neuralNetworks, self.numRollouts)
         nextGameState, pi = self.mcts.ChooseMove(self.temperture)
         return nextGameState, pi
+    
+    def SetTemperature(self, new_temperature):
+        self.temperture = new_temperature
         
         
 

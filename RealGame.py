@@ -38,10 +38,11 @@ class RealGame:
 nn1 = Connect4NN()
 nn1.Load("NN")
 player1 = AIPlayerFactory().GetPlayHumanAI(nn1)
-'''
+
 player1 = HumanPlayer()
 nn2 = Connect4NN()
 nn2.Load("NN3")
 player2 = AIPlayerFactory().GetPlayHumanAI(nn2)
 game = RealGame(player1, player2, Connect4GameType())
 game.PlayGame()
+'''

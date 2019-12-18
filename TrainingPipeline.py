@@ -17,7 +17,7 @@ from twilio.rest import Client
 client = Client("AC9c71e8bf50be8e734ed0d3c3ab855eb9", "62309c663d49dbc94a25d034ec176b5e")
 
 class TrainingPipeline:
-    load_str = "NN3"
+    load_str = "NN4"
     
     def __init__(self, gameType):
         self.gameType = gameType
@@ -41,13 +41,12 @@ class TrainingPipeline:
                 nn = self.gameType.GetNewNeuralNetwork()
                 nn.Train(self.dataManager.GetTrainingData())
                 evaluator = Evaluator(self.neuralNetwork, nn, self.gameType)
-                if evaluator.IsNN2BetterThanNN1(10):
+                if evaluator.IsNN2BetterThanNN1(8):
                     print("replacing NN")
                     better = True
                     self.neuralNetwork = nn
                     counter += 1
             self.neuralNetwork.Save(TrainingPipeline.load_str)
-        print(counter)
         client.messages.create(to="+15136384300", 
                        from_="+13345106249", 
                        body="Training Finished. The NN updated " + str(counter) + " times")
