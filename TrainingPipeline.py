@@ -10,6 +10,7 @@ from Evaluator import Evaluator
 from SelfPlay import SelfPlay
 from AIPlayerFactory import AIPlayerFactory
 from Connect4GameType import Connect4GameType
+from DataManager import DataManager
 
 
 class TrainingPipeline:
@@ -19,6 +20,7 @@ class TrainingPipeline:
         self.gameType = gameType
         self.neuralNetwork = gameType.GetOldNeuralNetwork(TrainingPipeline.load_str)
         self.aiFactory = AIPlayerFactory()
+        self.dataManager = DataManager()
     
     
     def Train(self):
@@ -26,9 +28,10 @@ class TrainingPipeline:
         for _ in range(20):
             aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
             selfPlay = SelfPlay(aiPlayer, self.gameType)
-            selfPlay.PlayGames(1)
+            selfPlay.PlayGames(10)
             nn = self.gameType.GetNewNeuralNetwork()
-            nn.Train(selfPlay.GetData())
+            self.dataManager.InputData(selfPlay.GetData())
+            nn.Train(self.dataManager.GetTrainingData())
             evaluator = Evaluator(self.neuralNetwork, nn, self.gameType)
             if evaluator.IsNN2BetterThanNN1(6):
                 print("replacing NN")

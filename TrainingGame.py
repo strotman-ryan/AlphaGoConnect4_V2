@@ -19,6 +19,7 @@ class TrainingGame:
         
     def PlayGame(self):
         while not self.gameState.IsTerminal():
+            #print(self.gameState.board)
             previousGameState = self.gameState
             self.gameState, pi = self.ai.MakeMove(self.gameState)
             self.trainingData.append(TrainingExample(previousGameState, pi))
