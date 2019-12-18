@@ -14,13 +14,13 @@ class SelfPlay:
     def __init__(self, player, game):
         self.game = game
         self.player = player
-        self.trainingExamples = np.array([])
+        self.trainingExamples = []
         
     def PlayGames(self, numGames):
         for _ in range(numGames):  
             initilizedGame = TrainingGame(self.player, self.game)
             initilizedGame.PlayGame()
-            self.trainingExamples = np.append(self.trainingExamples, initilizedGame.GetTraingData())
+            self.trainingExamples.extend(initilizedGame.GetTraingData())
     
     def GetData(self):
         return self.trainingExamples
