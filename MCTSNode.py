@@ -13,12 +13,13 @@ class MCTSNode:
         self.children = []
 
     '''
-    temperature [.1,1]
+    temperature [.001,1]
     '''
     def ChooseMove(self,temperature):
         n_array = self.getVisitCounts()
-        n_array_temperature = np.power(n_array,1/temperature)
-        pi_missing_data = n_array_temperature / n_array_temperature.sum()
+        n_array_temperature = [count ** int(1/temperature) for count in n_array]
+        sum_array = sum(n_array_temperature)
+        pi_missing_data = [count /sum_array for count in n_array_temperature]
         rand = random.uniform(0,1)
         index_of_pick = 0
         sum_probs = pi_missing_data[index_of_pick]
@@ -48,7 +49,7 @@ class MCTSNode:
             self.stats.Update(vflipped)
             return vflipped
             
-        all_counts =self.getVisitCounts().sum()
+        all_counts = sum(self.getVisitCounts())
         
         best_child = None
         best_score = -1
@@ -65,9 +66,9 @@ class MCTSNode:
         
     
     def getVisitCounts(self):
-        n_array = np.array([])
+        n_array = []
         for child in self.children:
-            n_array = np.append(n_array,child.stats.N)
+            n_array.append(child.stats.N)
         return n_array
     
         

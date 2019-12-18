@@ -77,7 +77,7 @@ class Connect4GameState(AbstractGameState):
         possibleMoves = self.getPossibleMoves()
         for move in range(0,7):
             if move not in possibleMoves:
-                arrayOfProbabilites = np.insert(arrayOfProbabilites,move, 0)
+                arrayOfProbabilites.insert(move,0)
         return arrayOfProbabilites
         
     '''

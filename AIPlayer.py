@@ -16,7 +16,6 @@ class AIPlayer(AbstractPlayer):
         self.mcts.SetRootNode(gameState)
         self.mcts.DoSearch(self.neuralNetworks, self.numRollouts)
         nextGameState, pi = self.mcts.ChooseMove(self.temperture)
-        print(pi)
         return nextGameState, pi
         
         
