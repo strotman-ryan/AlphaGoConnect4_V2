@@ -14,7 +14,7 @@ from DataManager import DataManager
 
 
 class TrainingPipeline:
-    load_str = "NN"
+    load_str = "NN2"
     
     def __init__(self, gameType):
         self.gameType = gameType
@@ -26,6 +26,7 @@ class TrainingPipeline:
     def Train(self):
         counter = 0
         for _ in range(20):
+            print("Iteraction: " + str(_))
             aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
             selfPlay = SelfPlay(aiPlayer, self.gameType)
             selfPlay.PlayGames(10)

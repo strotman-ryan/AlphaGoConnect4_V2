@@ -63,7 +63,7 @@ class Connect4WinNN:
         return self.model.predict(board_rep)[0][0]
         
     def Train(self, board_reps, outcomes):
-        self.model.fit(board_reps, outcomes, epochs = 10, batch_size = 50)
+        self.model.fit(board_reps, outcomes, epochs = 100, batch_size = 50)
         
     def Save(self, fileName):
         fileName = fileName + '.h5'
@@ -85,7 +85,7 @@ class Connect4MoveNN:
         return self.model.predict(board_rep)[0]
         
     def Train(self, board_reps, pis):
-        self.model.fit(board_reps, pis, epochs = 10, batch_size = 50)
+        self.model.fit(board_reps, pis, epochs = 100, batch_size = 50)
         
     def Save(self, fileName):
         fileName = fileName + '.h5'

@@ -18,6 +18,7 @@ class SelfPlay:
         
     def PlayGames(self, numGames):
         for _ in range(numGames):  
+            print(_)
             initilizedGame = TrainingGame(self.player, self.game)
             initilizedGame.PlayGame()
             self.trainingExamples.extend(initilizedGame.GetTraingData())
