@@ -43,14 +43,12 @@ class DummyGameNN:
         return np.append(board_rep_p1, board_rep_p2) 
     
     def Save(self, fileName):
-        fileNames = fileName.split()
-        self.policyNN.Save(fileNames[0])
-        self.movesNN.Save(fileNames[1])
+        self.policyNN.Save(fileName + "_policy")
+        self.movesNN.Save(fileName + "_moves")
     
     def Load(self, fileName):
-        fileNames = fileName.split()
-        self.policyNN.Load(fileNames[0])
-        self.movesNN.Load(fileNames[1])
+        self.policyNN.Load(fileName + "_policy")
+        self.movesNN.Load(fileName + "_moves")
 
 #produces probabilty of winning for whos turn it is
 class DummyGamePolicyNN:
