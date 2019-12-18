@@ -36,14 +36,12 @@ class Connect4NN(AbstractNeuralNetwork):
 		self.movesNN.Train(boards, pis)
 
 	def Save(self, fileName):
-		fileNames = fileName.split()
-		self.winNN.Save(fileNames[0])
-		self.movesNN.Save(fileNames[1])
+		self.winNN.Save(fileName + "_policy")
+		self.movesNN.Save(fileName + "_moves")
 
 	def Load(self, fileName):
-		fileNames = fileName.split()
-		self.winNN.Load(fileNames[0])
-		self.movesNN.Load(fileNames[1])
+		self.winNN.Load(fileName + "_policy")
+		self.movesNN.Load(fileName + "_moves")
 		
 	def transformBoard(self, board_rep):
 		board_rep1 = np.reshape(board_rep.copy(), 42)

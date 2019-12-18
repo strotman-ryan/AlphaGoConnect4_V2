@@ -13,7 +13,7 @@ from Connect4GameType import Connect4GameType
 
 
 class TrainingPipeline:
-    load_str = "policy move"
+    load_str = "NN"
     
     def __init__(self, gameType):
         self.gameType = gameType
