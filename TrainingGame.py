@@ -15,16 +15,16 @@ class TrainingGame:
     def __init__(self, aiPlayer, gameType):
         self.ai = aiPlayer
         self.gameState = gameType.GetStartingBoard()
-        self.trainingData = np.array([])
+        self.trainingData = []
         
     def PlayGame(self):
         while not self.gameState.IsTerminal():
             previousGameState = self.gameState
             self.gameState, pi = self.ai.MakeMove(self.gameState)
-            self.trainingData = np.append(self.trainingData, TrainingExample(previousGameState, pi))
+            self.trainingData.append(TrainingExample(previousGameState, pi))
         
         result = self.gameState.ValueOfWinner()
-        for state in np.flip(self.trainingData):
+        for state in reversed(self.trainingData):
             result = 1 - result
             state.AddResult(result)
         
