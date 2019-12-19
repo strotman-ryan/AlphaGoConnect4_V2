@@ -14,8 +14,6 @@ from DataManager import DataManager
 from twilio.rest import Client
 import os
 
-
-#client = Client("AC9c71e8bf50be8e734ed0d3c3ab855eb9" , "62309c663d49dbc94a25d034ec176b5e")
 client = Client(os.environ["WillowAC"], os.environ["WillowPassword"])
 
 class TrainingPipeline:
@@ -30,20 +28,20 @@ class TrainingPipeline:
     
     def Train(self):
         counter = 0
-        for _ in range(1):
+        for _ in range(50):
             print("Iteraction: " + str(_))
             aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
             selfPlay = SelfPlay(aiPlayer, self.gameType)
-            selfPlay.PlayGames(1)
+            selfPlay.PlayGames(10)
             self.dataManager.InputData(selfPlay.GetData())
             better = False
             nnsTrained = 0
-            while not better and nnsTrained < 0:
+            while not better and nnsTrained < 5:
                 nnsTrained += 1
                 nn = self.gameType.GetNewNeuralNetwork()
                 nn.Train(self.dataManager.GetTrainingData())
                 evaluator = Evaluator(self.neuralNetwork, nn, self.gameType)
-                if evaluator.IsNN2BetterThanNN1(1):
+                if evaluator.IsNN2BetterThanNN1(8):
                     print("replacing NN")
                     better = True
                     self.neuralNetwork = nn
