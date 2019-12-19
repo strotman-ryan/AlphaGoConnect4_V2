@@ -29,20 +29,18 @@ class RealGame:
                 #from player 2s view
                 return 1 - self.gameState.ValueOfWinner()
             self.gameState, _ = self.player2.MakeMove(self.gameState)
-           
         #from player1s view
         result = self.gameState.ValueOfWinner()
         return result
   
-'''
+
 nn1 = Connect4NN()
-nn1.Load("NN")
+nn1.Load("NN4")
 player1 = AIPlayerFactory().GetPlayHumanAI(nn1)
 
 player1 = HumanPlayer()
 nn2 = Connect4NN()
-nn2.Load("NN3")
+nn2.Load("NN4")
 player2 = AIPlayerFactory().GetPlayHumanAI(nn2)
-game = RealGame(player1, player2, Connect4GameType())
+game = RealGame(player2, player1, Connect4GameType())
 game.PlayGame()
-'''
