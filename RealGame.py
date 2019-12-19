@@ -33,7 +33,7 @@ class RealGame:
         result = self.gameState.ValueOfWinner()
         return result
   
-
+'''
 nn1 = Connect4NN()
 nn1.Load("NN4")
 player1 = AIPlayerFactory().GetPlayHumanAI(nn1)
@@ -44,3 +44,4 @@ nn2.Load("NN4")
 player2 = AIPlayerFactory().GetPlayHumanAI(nn2)
 game = RealGame(player2, player1, Connect4GameType())
 game.PlayGame()
+'''
