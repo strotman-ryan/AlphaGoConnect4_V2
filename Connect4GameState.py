@@ -4,6 +4,7 @@ import numpy as np
 
 from Result import Result
 from AbstractGameState import AbstractGameState
+import copy
 
 class Connect4GameState(AbstractGameState):
 
@@ -18,17 +19,15 @@ class Connect4GameState(AbstractGameState):
     '''
     def GetNextStatesWithProbabilites(self, neuralNetworks):
         probabilities = neuralNetworks.GetMoveProbabilites(self)
-        children = np.array([])
-        returnedProbabilities = np.array([])
+        children = []
+        validProbabilities = []
         validMoves = self.getPossibleMoves()
         for move in validMoves:
-            newBoard = self.board.copy()
-            newGameState = Connect4GameState(newBoard)
-            newGameState.addPlayerMove(move)
-            children = np.append(children,newGameState)
-            returnedProbabilities = np.append(returnedProbabilities, probabilities[move])
-        returnedProbabilities = returnedProbabilities / returnedProbabilities.sum() #renormalize
-        return (children, returnedProbabilities)
+            newBoard = self.addPlayerMove(move)
+            children.append(Connect4GameState(newBoard))
+            validProbabilities.append(probabilities[move])
+        validProbabilities = validProbabilities / sum(validProbabilities) #renormalize
+        return (children, validProbabilities)
         
     '''
     returns true if end of game
@@ -85,23 +84,28 @@ class Connect4GameState(AbstractGameState):
     Can be used to simply place the correct chip as well as determine current player
     '''
     def whosMove(self):
-        return 1 if self.board.sum() == 0 else -1
+        return 1 if sum([sum(row) for row in self.board]) == 0 else -1
         
     def GetNextStateFromHuman(self):
         self.printBoard()
         column = int(input("Input Valid Move From 0-6: "))
-        newGameState = Connect4GameState(self.board.copy())
-        newGameState.addPlayerMove(column)
-        return newGameState
+        newBoard = self.addPlayerMove(column)
+        return Connect4GameState(newBoard)
 
-    def printBoard(self):
-        boardCopy = self.board.astype(int).astype(str)
-        boardCopy[boardCopy == '0'] = "_"
-        boardCopy[boardCopy == '1'] = "O"
-        boardCopy[boardCopy == '-1'] = "X"
+    def PrintBoard(self):
+        print('---------------')
         for row in range(6):
-            print(''.join(boardCopy[row]))
-        #print(boardCopy)
+            rowString = "|"
+            for column in range(7):
+                if self.board[row][column] == 1:
+                    rowString += "O"
+                elif self.board[row][column] == -1:
+                    rowString += "X"
+                else:
+                    rowString += " "
+                rowString += "|"
+            print(rowString)
+            print('---------------')
                     
     def checkVertical(self, result):
         for column in range(7):
@@ -110,9 +114,9 @@ class Connect4GameState(AbstractGameState):
             for row in range(3):
                 if result != Result.NotFinished:
                     break
-                if self.board[row, column] != 0:
-                    if self.board[row, column] == self.board[row+1, column] and self.board[row, column] == self.board[row+2, column] and self.board[row, column] == self.board[row+3, column]:
-                        if self.board[row, column] == 1:
+                if self.board[row][column] != 0:
+                    if self.board[row][column] == self.board[row+1][column] == self.board[row+2][column] == self.board[row+3][column]:
+                        if self.board[row][column] == 1:
                             result = Result.Player1Win
                         else:
                             result = Result.Player2Win
@@ -126,25 +130,9 @@ class Connect4GameState(AbstractGameState):
                 for column in range(4):
                     if result != Result.NotFinished:
                         break
-                    if self.board[row, column] != 0:
-                        if self.board[row, column] == self.board[row, column+1] and self.board[row, column] == self.board[row, column+2] and self.board[row, column] == self.board[row, column+3]:
-                            if self.board[row, column] == 1:
-                                result = Result.Player1Win
-                            else:
-                                result = Result.Player2Win
-        return result
-
-    def checkDiagonoalUpRight(self,result):
-        if result == Result.NotFinished:
-            for row in range(3):
-                if result != Result.NotFinished:
-                    break
-                for column in range(4):
-                    if result != Result.NotFinished:
-                        break
-                    if self.board[row, column] != 0:
-                        if self.board[row, column] == self.board[row+1, column+1] and self.board[row, column] == self.board[row+2, column+2] and self.board[row, column] == self.board[row+3, column+3]:
-                            if self.board[row, column] == 1:
+                    if self.board[row][column] != 0:
+                        if self.board[row][column] == self.board[row][column+1] == self.board[row][column+2] == self.board[row][column+3]:
+                            if self.board[row][column] == 1:
                                 result = Result.Player1Win
                             else:
                                 result = Result.Player2Win
@@ -152,15 +140,31 @@ class Connect4GameState(AbstractGameState):
 
     def checkDiagonalDownRight(self,result):
         if result == Result.NotFinished:
+            for row in range(3):
+                if result != Result.NotFinished:
+                    break
+                for column in range(4):
+                    if result != Result.NotFinished:
+                        break
+                    if self.board[row][column] != 0:
+                        if self.board[row][column] == self.board[row+1][column+1] == self.board[row+2][column+2] == self.board[row+3][column+3]:
+                            if self.board[row][column] == 1:
+                                result = Result.Player1Win
+                            else:
+                                result = Result.Player2Win
+        return result
+
+    def checkDiagonalUpRight(self,result):
+        if result == Result.NotFinished:
             for row in range(3,6):
                 if result != Result.NotFinished:
                     break
                 for column in range(4):
                     if result != Result.NotFinished:
                         break
-                    if self.board[row, column] != 0:
-                        if self.board[row, column] == self.board[row-1, column+1] and self.board[row, column] == self.board[row-2, column+2] and self.board[row, column] == self.board[row-3, column+3]:
-                            if self.board[row, column] == 1:
+                    if self.board[row][column] != 0:
+                        if self.board[row][column] == self.board[row-1][column+1] == self.board[row-2][column+2] == self.board[row-3][column+3]:
+                            if self.board[row][column] == 1:
                                 result = Result.Player1Win
                             else:
                                 result = Result.Player2Win
@@ -176,25 +180,33 @@ class Connect4GameState(AbstractGameState):
         result = Result.NotFinished;
         result = self.checkVertical(result)
         result = self.checkHorizontal(result)
-        result = self.checkDiagonoalUpRight(result)
         result = self.checkDiagonalDownRight(result)
+        result = self.checkDiagonalUpRight(result)
         result = self.checkTie(result)
         return result
     
     #returns a set of columns that have at least one open spot
     def getPossibleMoves(self):
-        moves = np.array([], dtype = int)
+        moves = []
         for column in range(7):
-            if (self.board[:,column] == 0).sum() > 0:
-                moves = np.append(moves,column)
+            if self.board[0][column] == 0:
+                moves.append(column)
         return moves
         
     #Update the board 
     #Assume the move is legal
+    # do not alter board game
     def addPlayerMove(self,column):
-        row = np.max(np.where(self.board[:,column] == 0))
-        self.board[row,column] = self.whosMove()
+        newBoard = copy.deepcopy(self.board)
+        for row in range(5,-1,-1):
+            if self.board[row][column] == 0:
+                newBoard[row][column] = self.whosMove()
+                return newBoard
+        print("ERRROR")
         
     def isBoardFilled(self):
-        return (self.board == 0).sum() == 0
+        for col in range(7):
+            if self.board[0][col]==0:
+                return False
+        return True
     

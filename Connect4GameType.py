@@ -15,7 +15,14 @@ class Connect4GameType(AbstractGameType):
     def GetStartingBoard(self):
         rows = 6
         columns = 7
-        return Connect4GameState(np.zeros((rows,columns)))
+        board = []
+        for row in range(rows):
+            new_row = []
+            for column in range(columns):
+                new_row.append(0)
+            board.append(new_row)
+        return Connect4GameState(board)
+        #return Connect4GameState(np.zeros((rows,columns)))
     
     
     def GetOldNeuralNetwork(self, loadString):
@@ -28,3 +35,7 @@ class Connect4GameType(AbstractGameType):
     
     def GetNewNeuralNetwork(self):
         return Connect4NN()
+'''
+board = Connect4GameType().GetStartingBoard()
+print(board)
+'''

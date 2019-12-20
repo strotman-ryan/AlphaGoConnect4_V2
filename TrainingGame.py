@@ -22,11 +22,14 @@ class TrainingGame:
         counter = 0
         while not self.gameState.IsTerminal():
             previousGameState = self.gameState
+            previousGameState.PrintBoard()
             self.gameState, pi = self.ai.MakeMove(self.gameState)
+            print(pi)
             self.trainingData.append(TrainingExample(previousGameState, pi))
             counter +=1
             if counter == 4:
                 self.ai.SetTemperature(.0001)
+        self.gameState.PrintBoard()
         
         result = self.gameState.ValueOfWinner()
         for state in reversed(self.trainingData):
