@@ -87,7 +87,7 @@ class Connect4GameState(AbstractGameState):
         return 1 if sum([sum(row) for row in self.board]) == 0 else -1
         
     def GetNextStateFromHuman(self):
-        self.printBoard()
+        self.PrintBoard()
         column = int(input("Input Valid Move From 0-6: "))
         newBoard = self.addPlayerMove(column)
         return Connect4GameState(newBoard)

@@ -15,6 +15,7 @@ class AIPlayer(AbstractPlayer):
     def MakeMove(self,gameState):
         self.mcts.SetRootNode(gameState)
         self.mcts.DoSearch(self.neuralNetworks, self.numRollouts)
+        #self.mcts.PrintTree()
         nextGameState, pi = self.mcts.ChooseMove(self.temperture)
         return nextGameState, pi
     

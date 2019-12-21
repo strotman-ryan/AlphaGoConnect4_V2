@@ -5,7 +5,7 @@ class EdgeStats:
     const = 1 #TODO chnage this
     
     def __init__(self,prob_of_chosen):
-        self.N = 0
+        self.N = 1
         self.W = 0
         self.P = prob_of_chosen
         self.Q = 0
@@ -30,3 +30,7 @@ class EdgeStats:
     def CalculateQplusU(self,total_n):
         result = self.Q + EdgeStats.const * self.P * math.sqrt(total_n) / (1 + self.N)
         return result
+    
+    def Print(self):
+        print("Visit Count: " + str(self.N))
+        print("PrioProbability: "  + str(self.P))

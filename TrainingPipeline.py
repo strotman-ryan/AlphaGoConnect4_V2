@@ -17,7 +17,7 @@ import os
 client = Client(os.environ["WillowAC"], os.environ["WillowPassword"])
 
 class TrainingPipeline:
-    load_str = "NN5"
+    load_str = "NN6"
     
     def __init__(self, gameType):
         self.gameType = gameType
@@ -28,11 +28,11 @@ class TrainingPipeline:
     
     def Train(self):
         counter = 0
-        for _ in range(50):
+        for _ in range(10):
             print("Iteraction: " + str(_))
             aiPlayer = self.aiFactory.GetSelfPlayAI(self.neuralNetwork)
             selfPlay = SelfPlay(aiPlayer, self.gameType)
-            selfPlay.PlayGames(10)
+            selfPlay.PlayGames(100)
             self.dataManager.InputData(selfPlay.GetData())
             better = False
             nnsTrained = 0
@@ -41,7 +41,7 @@ class TrainingPipeline:
                 nn = self.gameType.GetNewNeuralNetwork()
                 nn.Train(self.dataManager.GetTrainingData())
                 evaluator = Evaluator(self.neuralNetwork, nn, self.gameType)
-                if evaluator.IsNN2BetterThanNN1(8):
+                if evaluator.IsNN2BetterThanNN1(10):
                     print("replacing NN")
                     better = True
                     self.neuralNetwork = nn

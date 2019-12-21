@@ -22,9 +22,7 @@ class TrainingGame:
         counter = 0
         while not self.gameState.IsTerminal():
             previousGameState = self.gameState
-            previousGameState.PrintBoard()
             self.gameState, pi = self.ai.MakeMove(self.gameState)
-            print(pi)
             self.trainingData.append(TrainingExample(previousGameState, pi))
             counter +=1
             if counter == 4:
@@ -35,6 +33,7 @@ class TrainingGame:
         for state in reversed(self.trainingData):
             result = 1 - result
             state.AddResult(result)
+            
         
     def GetTraingData(self):
         return self.trainingData

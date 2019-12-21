@@ -53,6 +53,7 @@ class MCTSNode:
         
         best_child = None
         best_score = -1
+        random.shuffle(self.children)
         for child in self.children:
             score = child.CalculateQplusU(all_counts)
             if score > best_score:
@@ -63,6 +64,13 @@ class MCTSNode:
         vflipped = 1 - v
         self.stats.Update(vflipped)
         return vflipped
+    
+    def Print(self):
+        if self.gameState.IsTerminal() and self.stats.N > 0: 
+            self.gameState.PrintBoard()
+            self.stats.Print()
+        for child in self.children:
+            child.Print()
         
     
     def getVisitCounts(self):

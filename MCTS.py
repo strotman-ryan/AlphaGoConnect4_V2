@@ -43,6 +43,9 @@ class MCTS:
         new_node, pi = self.root_node.ChooseMove(temperature)
         self.root_node = new_node
         return (new_node.gameState, pi)
+    
+    def PrintTree(self):
+        self.root_node.Print()
 
        
 
